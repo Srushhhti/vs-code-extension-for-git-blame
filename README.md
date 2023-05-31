@@ -2,15 +2,25 @@
 
 This is the README for your extension "vs-code-extension-for-git-blame". After writing up a brief description, we recommend including the following sections.
 
-## Features
+# description 
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+This is a vscode extension showing the `git blame` feature on vscode. It is written in javascript. 
 
-For example if there is an image subfolder under your extension project workspace:
+## Command used in the code
 
-\!\[feature X\]\(images/feature-x.png\)
+for the editor email we used this const as MATCH:-
+/^author-mail <(.+)>$/: This is a regular expression pattern enclosed within forward slashes (/). Different symbols meanings ->
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+^:- start of a line
+author-mail <:- literal string that must be present in the line
+(.+):- capturing group that matches and captures any characters (except line breaks) one or more times. + quantifier ensures that there is at least one character between the angle brackets
+>: must be present in the line
+$: end of a line
+
+We then use .exec(line) to get the match as an array having match[0] or match[1]:-
+match[0] : entire matched substring, it will be the complete line that matches the pattern
+match[1] : content captured by the first capturing group ( .+ ), the email address enclosed in angle brackets
+otherwise a null array.
 
 ## Requirements
 

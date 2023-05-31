@@ -38,12 +38,16 @@ function activate(context) {
 				//then we execute this function to retrieve the editor's email id by checking each line that we got of gitBlameData
 				gitBlameData.forEach((line) => {
 					// we find a match for the editor's email
+					const match = /^author-mail <(.+)>$/.exec(line);
+					if(match){
+						//now i gave the email information to the const which will be shown on th emessgae on vscode
+						const editorEmail = match[1];
+						vscode.window.showInformationMessage(`Author email: ${editorEmail}`);
+					}
 				});
 
 			});
 		}
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from VS code extension for git blame!');
 	});
 
 	context.subscriptions.push(disposable);
