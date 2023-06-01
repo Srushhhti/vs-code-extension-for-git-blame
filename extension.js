@@ -1,62 +1,60 @@
-//we are using javascript for this that is why we have to use the require function
-// Import the module and reference it with the alias vscode in your code below
 const vscode = require('vscode');
-//import exec to execute shell command
 const { exec } = require('child_process');
-const { stdout } = require('process');
+const path = require('path');
 
+// Get the active editor's document URI
+const documentUri = vscode.window.activeTextEditor.document.uri;
 
-// Your extension is activated the very first time the command is executed
+// Get the absolute file path
+const absoluteFilePath = documentUri.fsPath;
 
-/**
- * @param {vscode.ExtensionContext} context
- */
+// Get the root path of the Git repository
+const gitRepositoryPath = 'C:\Users\Srushti Srivastava\OneDrive\Desktop\PROJECTS\My projects\new html website\checkextension';
 
-// This method is called when your extension is activated
+// Calculate the relative path to the file from the Git repository root
+const relativeFilePath = path.relative(gitRepositoryPath, absoluteFilePath);
+
 function activate(context) {
-	console.log('Your extension "vs-code-extension-for-git-blame" is now active!');
+  console.log('The "git blame" extension is now active!');
 
-	// Now provide the implementation of the command with  registerCommand it uses vscode.commands.registerCommand(commandId, callback);
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('vs-code-extension-for-git-blame.showGitBlame', function () {
-		// The code placed here will be executes
-		//vscode.window -> shows that whether the window of vscode is running on not
-		//active Text Editor -> shows whether the editor is active on vs code or is not working on the same 
-		const editor = vscode.window.activeTextEditor;
-		//if(editor)=true when editor does soem work on the text 
-		if(editor){
-			//the filePath will have the information of teh file system oath of the doc on wuth editi=or is editing 
-			const filePath = editor.document.uri.fsPath;
-			//exec(command which have to be executed, callback func)
-			exec(`git blame --line-porcelain ${filePath}`, (error,stdout) => {
-				if(error){
-					console.error("Error occured during the command!");
-				}
-				//first then it splits the git blame command that is retrieved on the pc and then splits it at enter 
-				const gitBlameData = stdout.split('\n');
+  
+  let disposable = vscode.commands.registerCommand("extension.showGitBlame", () => {
+    const editor = vscode.window.activeTextEditor;
+    if (editor) {
+      const filePath = `${relativeFilePath}`;
+      const fileName = path.basename(filePath);
+      exec(`git blame ${fileName}`, (error, stdout) => {
+        if (error) {
+          console.error(`Error executing "git blame": ${error}`);
+          return;
+        }
 
-				//then we execute this function to retrieve the editor's email id by checking each line that we got of gitBlameData
-				gitBlameData.forEach((line) => {
-					// we find a match for the editor's email
-					const match = /^author-mail <(.+)>$/.exec(line);
-					if(match){
-						//now i gave the email information to the const which will be shown on th emessgae on vscode
-						const editorEmail = match[1];
-						vscode.window.showInformationMessage(`Author email: ${editorEmail}`);
-					}
-				});
+        const blameData = stdout.split('\n');
 
-			});
-		}
-	});
+        blameData.forEach((line, lineNumber) => {
+          const match = /^author-mail <(.+)>$/.exec(line);
+          if (match) {
+            const email = match[1];
+            const range = new vscode.Range(lineNumber, 0, lineNumber, 0);
+            const decoration = vscode.window.createTextEditorDecorationType({
+              color: 'rgba(128, 128, 128, 0.5)',
+              textDecoration: `underline wavy ${email}`
+            });
+            editor.setDecorations(decoration, [range]);
+          }
+        });
+      });
+    }
+  });
 
-	context.subscriptions.push(disposable);
+  context.subscriptions.push(disposable);
 }
 
-// This method is called when your extension is deactivated
-function deactivate() {}
+function deactivate() {
+  console.log('The "git blame" extension has been deactivated.');
+}
 
 module.exports = {
-	activate,
-	deactivate
-}
+  activate,
+  deactivate
+};

@@ -9,12 +9,14 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onCommand:vs-code-extension-for-git-blame.showGitBlame"
+  ],
   "main": "./extension.js",
   "contributes": {
     "commands": [{
-      "command": "vs-code-extension-for-git-blame.helloWorld",
-      "title": "Hello World"
+      "command": "vs-code-extension-for-git-blame.showGitBlame",
+      "title": "Show Git Blame"
     }]
   },
   "scripts": {
