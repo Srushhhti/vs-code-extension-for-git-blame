@@ -8,56 +8,30 @@ This is a vscode extension showing the `git blame` feature on vscode. It is writ
 
 ## Command used in the code
 
-for the editor email we used this const as MATCH:-
-/^author-mail <(.+)>$/: This is a regular expression pattern enclosed within forward slashes (/). Different symbols meanings ->
+for the author's name we used this const as MATCH:-
+/^([^)]+)\)\s(.*)$/: This is a regular expression pattern enclosed within forward slashes (/). Different symbols meanings ->
 
 ^:- start of a line
-author-mail <:- literal string that must be present in the line
-(.+):- capturing group that matches and captures any characters (except line breaks) one or more times. + quantifier ensures that there is at least one character between the angle brackets
+([^)]+):- captures one or more characters that are not a closing parenthesis 
+\) :- matches a closing parenthesis `)`.
+(.*):- captures zero or more of any character except a newline.
+\s:- matches any whitespace character.
 >: must be present in the line
 $: end of a line
 
 We then use .exec(line) to get the match as an array having match[0] or match[1]:-
 match[0] : entire matched substring, it will be the complete line that matches the pattern
-match[1] : content captured by the first capturing group ( .+ ), the email address enclosed in angle brackets
+match[1] : content captured by the first capturing group ([^)]+), the email address enclosed in angle brackets
 otherwise a null array.
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+The folder must be assigned to a valid parent git repository. 
+If not try `git init`. 
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
+Showing error that git repository is not allocated, the command line is fine and the FileName is alos updated. Can only work once.
 
 ## Working with Markdown
 

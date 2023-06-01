@@ -19,28 +19,40 @@ function activate(context) {
 
   
   let disposable = vscode.commands.registerCommand("extension.showGitBlame", () => {
+    // The code placed here will be executes
+	//vscode.window -> shows that whether the window of vscode is running on not
+	//active Text Editor -> shows whether the editor is active on vs code or is not working on the same 
+		
     const editor = vscode.window.activeTextEditor;
+    //if(editor == true) -> when editor does some work on the file
     if (editor) {
       const filePath = `${relativeFilePath}`;
       const fileName = path.basename(filePath);
+      //exec(command which needs to be executed in the terminal, callback function)
       exec(`git blame ${fileName}`, (error, stdout) => {
         if (error) {
           console.error(`Error executing "git blame": ${error}`);
           return;
         }
 
-        const blameData = stdout.split('\n');
+        //first then it splits the git blame command that is retrieved on the pc and then splits it at enter 
+		const blameData = stdout.split('\n');
 
-        blameData.forEach((line, lineNumber) => {
-          const match = /^author-mail <(.+)>$/.exec(line);
-          if (match) {
-            const email = match[1];
-            const range = new vscode.Range(lineNumber, 0, lineNumber, 0);
-            const decoration = vscode.window.createTextEditorDecorationType({
-              color: 'rgba(128, 128, 128, 0.5)',
-              textDecoration: `underline wavy ${email}`
-            });
-            editor.setDecorations(decoration, [range]);
+        //then we execute this function to retrieve the editor's email id by checking each line that we got of gitBlameData
+		blameData.forEach((line, lineNumber) => {
+            //find a match for author name
+            const match = /^([^)]+)\)\s(.*)$/.exec(line);
+            if (match) {
+                //match info to the const 
+                const author = match[1];
+                const range = new vscode.Range(lineNumber, 0, lineNumber, 0);
+                const decoration = vscode.window.createTextEditorDecorationType({
+                    color: 'rgba(128, 128, 128, 0.5)',
+                    after: {
+                        contentText: `(${author})`
+                    }
+                });
+                editor.setDecorations(decoration, [range]);
           }
         });
       });
@@ -49,7 +61,7 @@ function activate(context) {
 
   context.subscriptions.push(disposable);
 }
-
+//when extension is deactivated 
 function deactivate() {
   console.log('The "git blame" extension has been deactivated.');
 }
