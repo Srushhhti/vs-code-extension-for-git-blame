@@ -28,6 +28,9 @@ otherwise a null array.
 
 The folder must be assigned to a valid parent git repository. 
 If not try `git init`. 
+Clone this repository and start debugging session on vscode.
+Open the folder you want to conduct your git blame action on
+press 'Shift+cmd/ctrl+P' and type "Show Git Blame"
 
 ## Known Issues
 
