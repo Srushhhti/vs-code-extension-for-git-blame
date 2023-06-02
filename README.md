@@ -24,8 +24,6 @@ Different symbols meanings ->
 
 \s:- matches any whitespace character
 
->: must be present in the line
-
 $: end of a line
 
 We then use .exec(line) to get the match as an array having match[0] or match[1]:-
@@ -34,7 +32,7 @@ match[0] : entire matched substring, it will be the complete line that matches t
 
 match[1] : content captured by the first capturing group ([^)]+), the email address enclosed in angle brackets 
 
-otherwise a null array
+-> otherwise a null array
 
 ## Requirements
 
