@@ -45,10 +45,10 @@
     "eslint": "^8.39.0",
     "glob": "^8.1.0",
     "mocha": "^10.2.0",
-    "typescript": "^5.0.4"
+    "typescript": "^5.0.4",
+    "vscode": "^1.1.37"
   },
   "dependencies": {
-    "child_process": "^1.0.2",
-    "vscode": "^1.1.37"
+    "child_process": "^1.0.2"    
   }
 }
