@@ -1,12 +1,10 @@
 # vs-code-extension-for-git-blame README
 
-This is the README for your extension "vs-code-extension-for-git-blame". After writing up a brief description, we recommend including the following sections.
-
-# Description 
+This is the README for your extension "vs-code-extension-for-git-blame". This will help you to check git blame in your any valid directory, on any file on that directory. Enjoy!
 
 This is a vscode extension showing the `git blame` feature on vscode. It is written in javascript. 
 
-## Command used in the code
+# Command used in the code
 
 For the author's name we used this const as MATCH:-
 
@@ -49,8 +47,19 @@ press 'Shift+cmd/ctrl+P' and type "Show Git Blame".
 
 It shows the git blame output on the code itself and also in the debug console of the vs-code-extension-for-git-blame folder, till the debugging session is deactivated. 
 
-## Known Issues
+## Installation instructions 
 
-Can only work once. 
+Clone this repository and start debugging session on vscode.
+
+Open the folder you want to conduct your git blame action on
+press 'Shift+cmd/ctrl+P' and type "Show Git Blame".
+
+## Usage
+
+It shows the git blame feature in the code itself and on the debug console of your cloned folder.
+
+## Troubleshooting
+
+If any issue occurs, just stop the debugging session and start a new one. The extension can output git blame as amny times as you want in one debugging session. The file path should be a valid file path and the only 1 file should exist in that file path.
 
 **Enjoy!**

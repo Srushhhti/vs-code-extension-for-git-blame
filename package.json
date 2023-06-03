@@ -1,6 +1,7 @@
 {
   "name": "vs-code-extension-for-git-blame",
   "displayName": "VS code extension for git blame",
+  "publisher" : "SrushtiSrivastava",
   "description": "",
   "version": "0.0.1",
   "engines": {
